@@ -1,0 +1,17 @@
+{
+  "name": "his-kafka-producer-v1",
+  "version": "1.0.0",
+  "description": "Receives UDP packets from IoT hub and writes to Kafka cluster.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noah Kurrack",
+  "license": "ISC",
+  "dependencies": {
+    "dgram": "^1.0.1",
+    "ip": "^1.1.5",
+    "kafkajs": "^1.12.0"
+  }
+}

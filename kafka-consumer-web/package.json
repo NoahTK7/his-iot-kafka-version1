@@ -1,0 +1,17 @@
+{
+  "name": "his-kafka-consumer-web-v1",
+  "version": "1.0.0",
+  "description": "Consumes data from Kafka cluster to display on webpage. Uses Kafka REST proxy.",
+  "main": "index.js",
+  "scripts": {
+    "start": "echo \"run 'node index.js' to start consumer.\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noah Kurrack",
+  "license": "ISC",
+  "dependencies": {
+    "ip": "^1.1.5",
+    "kafkajs": "^1.12.0",
+    "socket.io": "^2.3.0"
+  }
+}
