@@ -117,7 +117,7 @@ const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
 errorTypes.map(type => {
     process.on(type, async () => {
         try {
-            console.log(`process.on ${type}`)
+            console.log(`    process.on ${type}`)
             await producer.disconnect()
             await server.close()
             process.exit(0)
@@ -130,6 +130,7 @@ errorTypes.map(type => {
 signalTraps.map(type => {
     process.once(type, async () => {
         try {
+            console.log(`    process.once ${type}`)
             await producer.disconnect()
             await server.close()
         } finally {

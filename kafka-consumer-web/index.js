@@ -58,14 +58,14 @@ const processMessage = async ({ topic, partition, message }) => {
   console.log("time elapsed since UDP packet received: " + ((new Date) - startTime) + " milliseconds");
 
   if (topic == "pod_statuses" && messageJson.data == "start") {
-    await subNewTopic("pod_" + message.key + "_telemetry")
+    await subNewTopic(telemetryConsumer, "pod_" + message.key + "_telemetry")
   }
   // else if (topic.contains("telemetry")) {
 
   // }
 }
 
-const subNewTopic = async (newTopic) => {
+const subNewTopic = async (consumer, newTopic) => {
   try {
     // get list to see if topic exists already
     let topicMetadata = await admin.fetchTopicMetadata();
@@ -91,14 +91,14 @@ const subNewTopic = async (newTopic) => {
   }
 
   // only way to stop consumer?
-  await telemetryConsumer.disconnect();
-  await telemetryConsumer.connect();
+  await consumer.disconnect();
+  await consumer.connect();
 
   // subscribe to new topic 
-  await telemetryConsumer.subscribe({ topic: telemetryTopics })
+  await consumer.subscribe({ topic: telemetryTopics })
 
   // restart consumer
-  telemetryConsumer.run({
+  consumer.run({
     eachMessage: processMessage,
   })
 }
@@ -110,14 +110,19 @@ init().catch(e => console.error(`[his-kafka-consumer-web-v1] ${e.message}`, e))
 const errorTypes = ['unhandledRejection', 'uncaughtException']
 const signalTraps = ['SIGTERM', 'SIGINT', 'SIGUSR2']
 
+const shutdown = async () => {
+  console.log("shutting down...")
+  await statusConsumer.disconnect()
+  await telemetryConsumer.disconnect()
+  await admin.disconnect()
+}
+
 errorTypes.map(type => {
   process.on(type, async e => {
     try {
       console.log(`    process.on ${type}`)
       console.error(e)
-      await statusConsumer.disconnect()
-      await telemetryConsumer.disconnect()
-      await admin.disconnect()
+      await shutdown()
       process.exit(0)
     } catch (_) {
       process.exit(1)
@@ -129,9 +134,7 @@ signalTraps.map(type => {
   process.once(type, async () => {
     try {
       console.log(`    process.once ${type}`)
-      await statusConsumer.disconnect()
-      await telemetryConsumer.disconnect()
-      await admin.disconnect()
+      await shutdown()
     } finally {
       process.kill(process.pid, type)
     }
