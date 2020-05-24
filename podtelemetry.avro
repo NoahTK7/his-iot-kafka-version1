@@ -1,0 +1,42 @@
+{
+	"name": "raw_pod_telemetry_new",
+	"type": "record",
+	"fields": [{
+			"name": "pod_id",
+			"type": {
+				"type": "int",
+				"arg.properties": {
+					"iteration": {
+						"start": 101,
+						"step": 1,
+						"restart": 103
+					}
+				}
+			}
+		},
+		{
+			"name": "vel",
+			"type": {
+				"type": "double",
+				"arg.properties": {
+					"range": {
+						"min": 0.0,
+						"max": 10.0
+					}
+				}
+			}
+		},
+		{
+			"name": "accel",
+			"type": {
+				"type": "double",
+				"arg.properties": {
+					"range": {
+						"min": 0.0,
+						"max": 5.0
+					}
+				}
+			}
+		}
+	]
+}

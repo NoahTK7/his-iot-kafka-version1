@@ -133,6 +133,7 @@ signalTraps.map(type => {
             console.log(`    process.once ${type}`)
             await producer.disconnect()
             await server.close()
+            console.log("producer and UDP server closed... shutting down.")
         } finally {
             process.kill(process.pid, type)
         }
