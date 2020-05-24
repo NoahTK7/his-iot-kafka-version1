@@ -1,0 +1,3 @@
+bin/ksql-datagen schema=~/Desktop/dev/gatorloop/his-UI/kafka-version1/podtelemetry.avro format=json topic=pod_telemetry_raw key=d_id maxInterval=10000
+
+confluent local load InfluxDBSinkConnector -- -d etc/kafka-connect-influxdb/influxdb-sink-connector.properties
