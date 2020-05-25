@@ -1,3 +1,6 @@
-bin/ksql-datagen schema=~/Desktop/dev/gatorloop/his-UI/kafka-version1/podtelemetry.avro format=json topic=pod_telemetry_raw key=d_id maxInterval=10000
+bin/ksql-datagen schema=~/Desktop/dev/gatorloop/his-UI/kafka-version1/podtelemetry.avro format=json topic=pod_telemetry_raw key=pod_id maxInterval=10000
+docker exec ksql-datagen -i ...
+
+ksql-datagen schema=/opt/schemas/podtelemetry.avro value-format=json key-format=json topic=POD_TELEMETRY_RAW key=pod_id msgRate=1 printRows=true bootstrap-server=broker:29092 schemaRegistryUrl=http://schema-registry:8081
 
 confluent local load InfluxDBSinkConnector -- -d etc/kafka-connect-influxdb/influxdb-sink-connector.properties
